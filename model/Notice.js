@@ -1,11 +1,6 @@
 const mongoose = require('mongoose');
 
-const notificationSchema = new mongoose.Schema({
-    firmId: {
-        type: String,
-        required: true,
-        min:12
-    },
+const noticeSchema = new mongoose.Schema({
     type: {
         type: String,
         required: true,
@@ -18,10 +13,6 @@ const notificationSchema = new mongoose.Schema({
         max: 1024,
         min: 6
     },
-    product: {
-        type: String,
-        required: false,
-    },
     shortcut: {
         type: String,
         required: false,
@@ -32,4 +23,4 @@ const notificationSchema = new mongoose.Schema({
     }
 });
 
-module.exports = mongoose.model('Notifications', notificationSchema);
+module.exports = mongoose.model('Notice', noticeSchema);

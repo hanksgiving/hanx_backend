@@ -8,6 +8,7 @@ const cors = require('cors');
 const authRoute = require('./routes/auth');
 const createAccount = require('./routes/createAccount');
 const Notifications = require('./routes/notifications');
+const Notice = require('./routes/notice');
 
 dotenv.config();
 
@@ -15,7 +16,8 @@ dotenv.config();
 mongoose.connect(process.env.DB_CONNECT, 
     { useNewUrlParser: true },
     { useCreateIndex: true },
-    { useUnifiedTopology: true },() => console.log('connected to db!')
+    { useUnifiedTopology: true },
+    () => console.log('connected to db!')
 );
 
 //Middleware
@@ -29,6 +31,7 @@ app.use(express.static(__dirname + "/public/"));
 app.use('/user', authRoute);
 app.use('/createAccount', createAccount);
 app.use('/notifications', Notifications);
+app.use('/notice', Notice);
 
 
 app.listen(5000, () => console.log('Server Up and running'));

@@ -1,30 +1,28 @@
 const router = require('express').Router();
-const Notifications = require('../model/Notifications');
+const Notice = require('../model/Notice');
 const verify = require('./verifyToken');
 
-// Create new notification
+// Create new notice
 router.post('/', async (req,res) => {
 
-    // Create new notification
-    const notification = new Notifications({
-        firmId: req.body.firmId,
+    // Create new notice
+    const notice = new Notice({
         type: req.body.type,
         message: req.body.message,
-        product: req.body.product,
         shortcut: req.body.url,
         timestamp: req.body.timestamp,
     });
     try{
-        const saveNotification = await notification.save();
+        const saveNotice = await notice.save();
         res.send(saveNotification);
     }catch(err){
         res.status(400).send(err);
     }
 });
 
-// Get a list of notifications
-router.get('/:firmId', async (req, res) => {
-    Notifications.find({firmId: req.params.firmId},(err, data) => {
+// Get a list of notices
+router.get('/', async (req, res) => {
+    Notice.find((err, data) => {
         if(err) {
             res.status(500).send(err);
         } else {
@@ -44,10 +42,10 @@ router.get('/count', async (req, res) => {
     }
     });*/
 
-// Delete a notification
+// Delete a notice
 router.delete('/:notId', async (req, res) => {
 try {
-    const deleteNotification = await Notifications.remove(
+    const deleteNotice = await Notice.remove(
         { _id: req.params.notId },
     );
     const countNotification = await Notifications.find(
