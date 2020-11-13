@@ -1,28 +1,34 @@
 const router = require('express').Router();
-const Notice = require('../model/Profile');
+const Profile = require('../model/Profile');
 const verify = require('./verifyToken');
+const { v4: uuidv4 } = require('uuid');
 
 // Create new notice
 router.post('/', async (req,res) => {
 
+    // Generate a firmid
+    const firmid = '009900' + uuidv4();
+
     // Create new notice
-    const notice = new Notice({
-        type: req.body.type,
-        message: req.body.message,
-        shortcut: req.body.url,
+    const profiles = new Profile({
+        firmid: firmid,
+        firmname: req.body.firmname,
+        firmpic: req.body.firmpic,
+        firmdescription: req.body.firmdescription,
+        status: req.body.status,
         timestamp: req.body.timestamp,
     });
     try{
-        const saveNotice = await notice.save();
-        res.send(saveNotification);
+        const saveProfile = await profiles.save();
+        res.send(saveProfile);
     }catch(err){
         res.status(400).send(err);
     }
 });
 
-// Get a list of notices
-router.get('/', async (req, res) => {
-    Notice.find((err, data) => {
+// Get a list of profiles
+router.get('/:firmid', async (req, res) => {
+    Profile.find({firmId: req.params.firmId},(err, data) => {
         if(err) {
             res.status(500).send(err);
         } else {
@@ -43,14 +49,14 @@ router.get('/count', async (req, res) => {
     });*/
 
 // Delete a notice
-router.delete('/:notId', async (req, res) => {
+router.delete('/:firmid', async (req, res) => {
 try {
-    const deleteNotice = await Notice.remove(
-        { _id: req.params.notId },
+    const deleteProfile = await Profile.deleteOne(
+        { firmid: req.params.firmid },
     );
-    const countNotification = await Notifications.find(
+    const countProfile = await Notifications.find(
     );
-    len = countNotification.data.length;
+    len = countProfile.data.length;
     res.send(len);
 }catch (err) {
     res.send(err);

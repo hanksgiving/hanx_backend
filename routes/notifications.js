@@ -21,10 +21,20 @@ router.post('/', async (req,res) => {
         res.status(400).send(err);
     }
 });
-
 // Get a list of notifications
 router.get('/:firmId', async (req, res) => {
     Notifications.find({firmId: req.params.firmId},(err, data) => {
+        if(err) {
+            res.status(500).send(err);
+        } else {
+            res.status(200).send(data);
+        }
+    });
+});
+/*
+// Get a list of notifications
+router.get('/', async (req, res) => {
+    Notifications.find((err, data) => {
         if(err) {
             res.status(500).send(err);
         } else {

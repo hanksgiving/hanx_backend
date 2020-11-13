@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const profileSchema = new mongoose.Schema({
     firmid: {
         type: String,
-        required: true
+        required: true,
     },
     status: {
         type: String,

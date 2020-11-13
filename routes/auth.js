@@ -2,7 +2,6 @@ const router = require('express').Router();
 const User = require('../model/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const { v4: uuidv4 } = require('uuid');
 const {registerValidation} = require('../validation');
 const {loginValidation} = require('../validation');
 
@@ -22,9 +21,6 @@ router.post('/register', async (req,res) =>
     // Hash the password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
-
-    // Generate a firmid
-    const firmid = '009900' + uuidv4();
 
     // Create a new user
     const user = new User({
